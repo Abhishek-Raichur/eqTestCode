@@ -1,0 +1,7 @@
+flask==2.3.2
+requests==2.31.0
+pytest==7.4.0
+werkzeug==2.3.8
+
+# For typing and linting if desired
+# mypy==1.8.0
