@@ -17,6 +17,17 @@ pipeline {
                 '''
             }
         }
+        stage('Run Application') {
+            steps {
+                                // Try to run the Flask app using the venv if present, else python3, else docker
+                sh '''
+                    export FLASK_APP=app.py
+                    python3 -m flask run --port 8080 &
+                    echo $! > .app_pid
+                    echo "Flask started with PID $(cat .app_pid)"
+                '''
+            }
+        }
     
     }
 }
