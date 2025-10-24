@@ -40,6 +40,31 @@ pipeline {
             }
             
         }
+        stage('Build & Push Docker Image') {
+            steps {
+                // Build image and push to Docker Hub. Requires DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD env vars
+                sh '''
+                   set -e
+                   REPO_BASE="${DOCKERHUB_REPO:-${DOCKERHUB_USERNAME:-yourdockeruser}}/eqtestcode"
+                   TAG="${BUILD_NUMBER}"
+                   IMAGE="${REPO_BASE}:${TAG}"
+                   echo "Building image $IMAGE"
+                   docker build -t "$IMAGE" .
+
+                   if [ -n "$DOCKERHUB_USERNAME" -a -n "$DOCKERHUB_PASSWORD" ]; then
+                     echo "Logging in to Docker Hub as $DOCKERHUB_USERNAME"
+                     echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+                   else
+                     echo "ERROR: DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD must be set as environment variables" >&2
+                     exit 1
+                   fi
+
+                   echo "Pushing image $IMAGE"
+                   docker push "$IMAGE"
+                   echo "$IMAGE" > .pushed_image
+                '''
+            }
+        }
     
     }
 }
