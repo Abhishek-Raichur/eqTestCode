@@ -46,7 +46,7 @@ pipeline {
                     // Build image and push to Docker Hub. Requires DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD env vars
                     sh '''
                        set -e
-                       docker build -t "$IMAGE" .
+                       docker build -t araichur/raichur-public:1.0.0 .
                     '''
                 }
             }
