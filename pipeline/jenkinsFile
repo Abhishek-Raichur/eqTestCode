@@ -42,6 +42,17 @@ pipeline {
         }
         stage('Build & Push Docker Image') {
             steps {
+                dir(WORKSPACE) {
+                    // Build image and push to Docker Hub. Requires DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD env vars
+                    sh '''
+                       set -e
+                       docker build -t "$IMAGE" .
+                    '''
+                }
+            }
+        }
+        /*stage('Build & Push Docker Image') {
+            steps {
                 // Build image and push to Docker Hub. Requires DOCKERHUB_USERNAME and DOCKERHUB_PASSWORD env vars
                 sh '''
                    set -e
@@ -64,7 +75,7 @@ pipeline {
                    echo "$IMAGE" > .pushed_image
                 '''
             }
-        }
+        }*
     
     }
 }
