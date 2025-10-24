@@ -10,19 +10,12 @@ pipeline {
         }
         stage('Create and activate a virtual environment'){
             steps {
-                // Use Docker CLI to provide Python if the declarative docker agent isn't available
                 sh '''
-                   # Create venv inside an ephemeral python container and mount the workspace
-                   # Use the current UID/GID so files are created with correct ownership
-                   docker run --rm -u $(id -u):$(id -g) -v "$PWD":/workspace -w /workspace python:3.11-slim \
-                     bash -lc "python3 -m venv venv && ./venv/bin/pip install -r requirements.txt || true"
+                   python3 -m venv venv
+                   . venv/bin/activate
                 '''
             }
         }
-        stage('Hello') {
-            steps {
-                echo 'Hello Worlds'
-            }
-        }
+    
     }
 }
