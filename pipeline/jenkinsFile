@@ -75,7 +75,7 @@ pipeline {
                    echo "$IMAGE" > .pushed_image
                 '''
             }
-        }*
+        }*/
     
     }
 }
