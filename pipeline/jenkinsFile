@@ -8,6 +8,14 @@ pipeline {
                 checkout scm
             }
         }
+        stage('Create and activate a virtual environment'){
+            steps {
+                sh '''
+                   python3 -m venv venv
+                   source venv/bin/activate
+                '''
+            }
+        }
         stage('Hello') {
             steps {
                 echo 'Hello Worlds'
