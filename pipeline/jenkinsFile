@@ -2,6 +2,12 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout SCM') {
+            steps {
+                // Ensure the workspace is populated from the configured SCM
+                checkout scm
+            }
+        }
         stage('Hello') {
             steps {
                 echo 'Hello Worlds'
